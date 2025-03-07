@@ -116,6 +116,21 @@ static const PinLookup pinTable[] = {
 { 4, PORTA,  6, 1, &REG_TCC1_CCB0, PORT_PMUX_PMUXE_E}
 //Table end
 
+#elif defined (ADAFRUIT_QTPY_M0)
+//Table begin
+{-1, 0, 0, 0, 0, 0},
+{-1, 0, 0, 0, 0, 0},
+{ 2, PORTA,  4, 0, &REG_TCC0_CCB0, PORT_PMUX_PMUXE_E},
+{ 3, PORTA,  5, 0, &REG_TCC0_CCB1, PORT_PMUX_PMUXO_E},
+{ 4, PORTA, 16, 2, &REG_TCC2_CCB0, PORT_PMUX_PMUXE_E},
+{ 5, PORTA, 17, 2, &REG_TCC2_CCB1, PORT_PMUX_PMUXO_E},
+{ 6, PORTA,  6, 1, &REG_TCC1_CCB0, PORT_PMUX_PMUXE_E},
+{ 7, PORTA,  7, 1, &REG_TCC1_CCB1, PORT_PMUX_PMUXO_E},
+{ 8, PORTA, 11, 0, &REG_TCC0_CCB3, PORT_PMUX_PMUXO_F},  // alt timer
+{ 9, PORTA,  9, 1, &REG_TCC1_CCB3, PORT_PMUX_PMUXO_F},  // alt timer
+{10, PORTA, 10, 0, &REG_TCC0_CCB2, PORT_PMUX_PMUXE_F}   // alt timer
+//Table end
+
 #else
   #error Board not supported by Turbo PWM Library
 #endif

@@ -28,14 +28,15 @@ Set input clock divider and Turbo Mode (which uses a 96MHz instead of a 48Mhz in
 
 ```pwm.setClockDivider([1-255], [true, false]);```
 
-**Initialise timer x, with prescaler, with steps (resolution), with fast aka single-slope PWM (or not -> double-slope PWM):**
+**Initialize timer x, with prescaler, with steps (resolution), with fast aka single-slope PWM (or not -> double-slope PWM):**
 
 ```pwm.timer([0, 1, 2], [1, 2, 4, 8, 16, 64, 256, 1024], [2-MaxSteps], [true, false]);```
 
-* For the Arduino Nano 33 IoT, you need to initialise timer 1 for pins 4 and 7, timer 0 for pins 5, 6, 8, and 12, and timer 2 for pins 11 and 13;
-* For the Arduino Zero (untested), Adafruit Feather M0 (untested), and Adafruit Itsy Bitsy M0 you need to initialise timer 0 for pins 3, 4, 10 and 12, timer 1 for pins 8 and 9, and timer 2 for pins 11 and 13;
-* For the Arduino MKR series (untested), you need to initialise timer 1 for pins 2 and 3, timer 0 for pins 4, 5, 6 and 7, and timer 2 for pins 8 and 9;
-* For the Adafruit Trinket M0, you need to initialise timer 0 for pins 0 and 2, and timer 1 for pins 3 and 4.
+* For the Arduino Nano 33 IoT, you need to initialize timer 1 for pins 4 and 7, timer 0 for pins 5, 6, 8, and 12, and timer 2 for pins 11 and 13;
+* For the Arduino Zero (untested), Adafruit Feather M0 (untested), and Adafruit Itsy Bitsy M0 you need to initialize timer 0 for pins 3, 4, 10 and 12, timer 1 for pins 8 and 9, and timer 2 for pins 11 and 13;
+* For the Arduino MKR series (untested), you need to initialize timer 1 for pins 2 and 3, timer 0 for pins 4, 5, 6 and 7, and timer 2 for pins 8 and 9;
+* For the Adafruit Trinket M0, you need to initialize timer 0 for pins 0 and 2, and timer 1 for pins 3 and 4.
+* For the Adafruit QtPy M0, you need to initialize timer 0 for pins 2, 3, 8, and 10. Timer 1 for pins 6, 7, and 9.  Timer 2 for pins 4 and 5.  
 
 MaxSteps is 0xFFFFFF for (24-bits) timers 0 and 1, and 0xFFFF for (16 bits) timer 2.
 
