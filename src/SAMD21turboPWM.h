@@ -127,7 +127,7 @@ static const PinLookup pinTable[] = {
 { 6, PORTA,  6, 1, &REG_TCC1_CCB0, PORT_PMUX_PMUXE_E},
 { 7, PORTA,  7, 1, &REG_TCC1_CCB1, PORT_PMUX_PMUXO_E},
 { 8, PORTA, 11, 0, &REG_TCC0_CCB3, PORT_PMUX_PMUXO_F},  // alt timer
-{ 9, PORTA,  9, 1, &REG_TCC1_CCB3, PORT_PMUX_PMUXO_F},  // alt timer
+{ 9, PORTA,  9, 1, &REG_TCC1_CCB1, PORT_PMUX_PMUXO_F},  // alt timer
 {10, PORTA, 10, 0, &REG_TCC0_CCB2, PORT_PMUX_PMUXE_F}   // alt timer
 //Table end
 
