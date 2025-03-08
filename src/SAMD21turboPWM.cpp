@@ -121,30 +121,33 @@ int TurboPWM::timer(unsigned int timerNumber, unsigned int TCCDiv, unsigned long
 
 int TurboPWM::analogWrite(int pin, unsigned int dutyCycle) {
   // Check if an acceptable pin is used
-  unsigned int i;
-  for (i = 0; i < pinTableSize; i++) {
-    if (pinTable[i].arduinoPin == pin) {
-      break;
-    }
-  }
-  if (i >= pinTableSize || pin < 0) {
+  if (checkPin(pin) == 0) {
     return 0;
   }
-  
-  // Enable a SAMD21 pin as multiplexed and connect it to a pin using the port multiplexer
-  PORT->Group[pinTable[pin].port].PINCFG[pinTable[pin].samd21Pin].bit.PMUXEN = 1;
-  PORT->Group[pinTable[pin].port].PMUX[pinTable[pin].samd21Pin >> 1].reg |= pinTable[pin].pMux;
   
   // Clamp dutycycle to the maximum duty cycle set in the header file; duty cycle will be (dutyCycle / _maxDutyCycle) * 100%
   if (dutyCycle > _maxDutyCycle) {
     dutyCycle = _maxDutyCycle;
   }
 
-  // Set duty cycle
-  *(RwReg*)pinTable[pin].REG_TCCx_CCBy = (timerTable[pinTable[pin].timer].steps * dutyCycle) / _maxDutyCycle;
-  while (timerTable[pinTable[pin].timer].TCCx->SYNCBUSY.vec.CCB);
+  dutyCycle = (timerTable[pinTable[pin].timer].steps * dutyCycle) / _maxDutyCycle;
+
+  return writeOutput(pin, dutyCycle);
+}
+
+
+int TurboPWM::analogWrite16Bit(int pin, uint16_t dutyCycle) {
+  // Check if an acceptable pin is used
+  if (checkPin(pin) == 0) {
+    return 0;
+  }
+
+  // Clamp dutycycle to the maximum number of steps for the given timer:
+  if (dutyCycle > timerTable[pinTable[pin].timer].steps) {
+    dutyCycle = timerTable[pinTable[pin].timer].steps;
+  }
   
-  return 1;
+  return writeOutput(pin, dutyCycle);
 }
 
 int TurboPWM::enable(unsigned int timerNumber, bool enabled) {
@@ -183,4 +186,30 @@ float TurboPWM::frequency(unsigned int timerNumber) {
     fastDivider = 2;
   }
   return (static_cast<float>(VARIANT_MCK) * PLL96M) / (fastDivider * _GCLKDiv * timerTable[timerNumber].TCCDiv * timerTable[timerNumber].steps);
+}
+
+bool TurboPWM::checkPin(int pin){
+  // Check if an acceptable pin is used
+  unsigned int i;
+  for (i = 0; i < pinTableSize; i++) {
+    if (pinTable[i].arduinoPin == pin) {
+      return 1;
+    }
+  }
+  if (i >= pinTableSize || pin < 0) {
+    return 0;
+  }
+  return 0;
+}
+
+int TurboPWM::writeOutput(int pin, uint16_t dutyCycle){
+  // Enable a SAMD21 pin as multiplexed and connect it to a pin using the port multiplexer
+  PORT->Group[pinTable[pin].port].PINCFG[pinTable[pin].samd21Pin].bit.PMUXEN = 1;
+  PORT->Group[pinTable[pin].port].PMUX[pinTable[pin].samd21Pin >> 1].reg |= pinTable[pin].pMux;
+
+  // Set duty cycle
+  *(RwReg*)pinTable[pin].REG_TCCx_CCBy = dutyCycle;
+  while (timerTable[pinTable[pin].timer].TCCx->SYNCBUSY.vec.CCB);
+
+  return 1;
 }

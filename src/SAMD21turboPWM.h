@@ -8,12 +8,15 @@ class TurboPWM {
     void setClockDivider(unsigned int GCLKDiv, bool turbo);
     int timer(unsigned int timernumber, unsigned int TCCDiv, unsigned long long int steps, bool fastPWM);
     int analogWrite(int pin, unsigned int dutyCycle);
+    int analogWrite16Bit(int pin, uint16_t dutyCycle);
     int enable(unsigned int timerNumber, bool enabled);
     float frequency(unsigned int timerNumber);
   private:
     unsigned int _GCLKDiv = 1;                // Main clock divider: 1 to 255 for both TCC0 and TCC1
     bool _turbo = false;                      // False for 48MHz clock, true for 96MHz clock
     const unsigned int _maxDutyCycle = 1000;  // The maximum duty cycle number; duty cycle will be (dutyCycle / _maxDutyCycle) * 100%
+    bool checkPin(int pin);
+    int writeOutput(int pin, uint16_t dutyCycle);
 };
 
 //Table for looking up and storing values for TCCx

@@ -43,6 +43,12 @@ MaxSteps is 0xFFFFFF for (24-bits) timers 0 and 1, and 0xFFFF for (16 bits) time
 
 ```pwm.analogWrite([pin number], [0-1000]);```
 
+**Start PWM on a pin with a 16 bit duty cycle:**
+
+```pwm.analogWrite([pin number], [0-65535]);```
+
+Note that the duty cycle will be limited to the number of steps specified with the `timer` function.  It is also limited to 16 bits.  
+
 **Enable/disable a timer:**
 
 ```pwm.enable([0, 1, 2], [true, false]);```
